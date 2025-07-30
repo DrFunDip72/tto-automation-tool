@@ -20,6 +20,7 @@ from datetime import datetime # to get the current day and time to put in the ad
 from time import sleep
 import re
 import os
+from config import images_folder
 
 
 # LOGS INTO BRIGHTSPOT
@@ -69,7 +70,7 @@ def bs_executive_statement(page, sExecutiveStatement) :
 def bs_image_main_page(page, sCleanID) :
     # Step 1: Build the image path using sCleanID
     image_path = os.path.join(
-        r"C:\Users\justi\Desktop\Desktop\Justin\Coding Projects\Automation\Images",
+        images_folder, 
         f"{sCleanID} image.jpeg"  # Or .png, if you're using PNGs
     )
 
