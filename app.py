@@ -4,7 +4,6 @@ import time
 import pandas as pd
 import io
 import zipfile
-import streamlit.components.v1 as components
 
 # --- 1. Session State Initialization ---
 # We define all the variables the app will need to remember.

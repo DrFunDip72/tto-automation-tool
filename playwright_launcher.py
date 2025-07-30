@@ -1,13 +1,9 @@
-# Justin Maxwell - Playwright Launcher
-
 # This python file launches playwright so it can be used to do other things
-
 
 # Import the necessary module from Playwright and others
 from playwright.sync_api import *
 from time import sleep
-
-chrome_user_data_path = r"C:\Users\justi\AppData\Local\Google\Chrome\User Data\Profile 2"
+from config import chrome_user_data_path
 
 # Function that opens the Chrome browser, goes to FirstIgnite, uploads the disclosure (in a for loop), and calls the function to create the sell sheet pdf
 def run(playwright: Playwright) -> None:

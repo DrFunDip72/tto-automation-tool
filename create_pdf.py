@@ -6,6 +6,7 @@
 # imports pdf functionality
 from fpdf import FPDF
 import os
+from config import noto_sans_r, noto_sans_b, banner_path, footer_banner_path, export_folder
 
 
 # Modify the bullet point sections to use multi_cell instead of cell
@@ -43,8 +44,8 @@ def create_pdf(sTitle, sCleanID, sExectutiveStatement, sDescription, lstAdvantag
 
     # Register Noto Sans Font
     # NOTE: the bullet points use "Arial" 
-    pdf.add_font("NotoSans", "", "C:/Users/justi/Desktop/Desktop/Justin/Coding Projects/Automation/Fonts/NotoSans-Regular.ttf",  uni=True)
-    pdf.add_font("NotoSans", "B", "C:/Users/justi/Desktop/Desktop/Justin/Coding Projects/Automation/Fonts/NotoSans-Bold.ttf", uni=True)  # Bold version
+    pdf.add_font("NotoSans", "", noto_sans_r,  uni=True)
+    pdf.add_font("NotoSans", "B", noto_sans_b, uni=True)  # Bold version
     
 
     # pulls and assigns variables
@@ -57,7 +58,6 @@ def create_pdf(sTitle, sCleanID, sExectutiveStatement, sDescription, lstAdvantag
     lstMarketApplications = lstMarketApplications
 
     # Insert banner image at the top
-    banner_path = "C:/Users/justi/Desktop/Desktop/Justin/Coding Projects/Automation/Images/banner.png"
     pdf.image(banner_path, x=0, y=0, w=210)  # Adjust width to fit A4 page
     
     # Set overlay text on the banner
@@ -111,7 +111,6 @@ def create_pdf(sTitle, sCleanID, sExectutiveStatement, sDescription, lstAdvantag
     add_bulleted_section(pdf, "Market Applications:", lstMarketApplications)
 
     # Insert footer banner image at the bottom
-    footer_banner_path = "C:/Users/justi/Desktop/Desktop/Justin/Coding Projects/Automation/Images/footer banner.png"  # Ensure the correct path
     footer_height = 20
     pdf.image(footer_banner_path, x=0, y= 290 - footer_height, w=210)  # Adjust width to fit A4 page
 
@@ -120,7 +119,6 @@ def create_pdf(sTitle, sCleanID, sExectutiveStatement, sDescription, lstAdvantag
 
     # Exports the sell sheet into the Exported Sell Sheet folder
     # the folder to export to
-    export_folder = r"C:\Users\justi\Desktop\Desktop\Justin\Coding Projects\Automation\Exported Sell Sheets"
     os.makedirs(export_folder, exist_ok=True)  # Ensure the folder exists
 
     # Combine folder path with output file name
