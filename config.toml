@@ -1,0 +1,2 @@
+[server]
+postInstall = "bash setup.sh"

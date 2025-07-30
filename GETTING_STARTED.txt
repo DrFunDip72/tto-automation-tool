@@ -1,0 +1,26 @@
+INSTRUCTIONS:
+
+Download VS CODE: https://code.visualstudio.com/download
+Download repository
+Place folder where you want it
+
+FROM TERMINAL:
+- import playwright
+- import FPDF
+
+CHANGE FOLDER/FILE DESTINATIONs:
+- disclosures_folder (main.py line 34)
+- NotoSans font (create_pdf.py lines 46-47)
+- banner_path (create_pdf.py line 60)
+- footer_banner_path (create_pdf.py line 114)
+- export_folder (create_pdf.py line 123)
+
+USERNAME & PASSWORD:
+- Option A: Hardcode your username and password and comment out line 52
+- Option B: Keep as is so it asks you for your username and password each time
+
+Put disclosures into disclosures folder and run it
+
+LOGGING IN:
+- the first time launching this, you will need to sign in to the FirstIgnite account manually
+- for BRIGHTSPOT, it may have you do duo/confirm text message. You should only have to do that once.
