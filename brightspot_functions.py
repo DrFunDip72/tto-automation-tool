@@ -20,8 +20,6 @@ from datetime import datetime # to get the current day and time to put in the ad
 from time import sleep
 import re
 import os
-from config import images_folder
-
 
 # LOGS INTO BRIGHTSPOT
 def bs_login(page, userUsername, userPassword) :
@@ -70,7 +68,7 @@ def bs_executive_statement(page, sExecutiveStatement) :
 def bs_image_main_page(page, sCleanID) :
     # Step 1: Build the image path using sCleanID
     image_path = os.path.join(
-        images_folder, 
+        "Images", 
         f"{sCleanID} image.jpeg"  # Or .png, if you're using PNGs
     )
 
@@ -134,13 +132,13 @@ def bs_additional_information(page, sCleanID) :
     date_published = datetime.now().strftime("%d %B, %Y")  # Example: "21 April, 2025"
     page.locator("li:nth-child(16) > .objectInputs > div:nth-child(3) > div:nth-child(2) > .ProseMirrorContainer > .ProseMirror").fill(f"Technology ID: {sCleanID}\nSell Sheet: Download the Sell Sheet here\nMarket Analysis: Contact us for a more in-depth market report\nDate Published: {date_published}")
 
-# Uploads the exported sell sheet pdf into the "Download the Sell Sheet here" text
+# Inserts the PDF SELL SHEET
 def bs_upload_pdf(page, sCleanID, exportFolder) :
     # moves the cursor and highlights the corresponding text "Download the Sell Sheet here"
     for iCount in range(0, 91) : # moves the cursor
         page.get_by_text(f"Technology ID: {sCleanID}Sell").press("ArrowLeft")
     
-    for iCount in range (0, 28) : # highlights the text
+    for iCount in range (0, 29) : # highlights the text
         page.get_by_text(f"Technology ID: {sCleanID}Sell").press("Shift+ArrowLeft")
 
     # Uploads the PDF and links it
@@ -150,9 +148,9 @@ def bs_upload_pdf(page, sCleanID, exportFolder) :
     page.get_by_role("textbox", name="Search", exact=True).press("ArrowDown")
     page.get_by_role("textbox", name="Search", exact=True).press("Enter")
     page.get_by_role("button", name="New").click()
-    pdf_path = os.path.join(exportFolder, f"{sCleanID} Sell Sheet.pdf")
-    page.get_by_role("textbox", name="Choose").set_input_files(pdf_path)
-    sleep(5)
+    sleep(3)
+    page.get_by_role("textbox", name="Choose").set_input_files(os.path.join(exportFolder, f"{sCleanID}_sell_sheet.pdf"))
+    sleep(10)
     page.locator("form").filter(has_text=f"New Attachment: {sCleanID}-sell").locator("button[name=\"action-publish\"]").click()
     sleep(5)
     page.get_by_text("Back", exact=True).click()
@@ -161,7 +159,7 @@ def bs_upload_pdf(page, sCleanID, exportFolder) :
     page.get_by_role("link", name=f"-{lastNum}-sell-sheet.pdf").first.click()
     page.get_by_role("button", name="Save & Close").click()
 
-# Changes the YEAR TAG
+# Inserts the YEAR TAG
 def bs_year_tag(page, sCleanID) :
     # Depending on the year of the tech, chooses that Tag
     years = ["2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"]
@@ -182,7 +180,7 @@ def bs_type_tag(page, sCleanID, tagTypeSelections) :
         page.get_by_role("link", name=sTypeTag, exact=False).click() 
         page.get_by_title("Close", exact=True).click()
 
-# Inserts a NEW LINK inside the contact us link so that it can autopopulate the tech ID box with the tech name and ID
+# Inserts the CONTACT LINK
 def bs_contact_link(page) :
     # Step 1: Build the contact link
     halfLink = page.get_by_role("textbox", name="Internal Name").input_value()
@@ -219,7 +217,7 @@ def bs_contact_link(page) :
     page.get_by_role("button", name="Save & Close").click(timeout=10000)
     sleep(3)
 
-# Changes the OVERRIDE DESCRIPTION to the tech ID
+# Inserts the OVERRIDE DESCRIPTION
 def bs_override_description(page, sCleanID):
 # Step 1: Click the Overrides tab
     page.get_by_role("link", name="Overrides").first.click(timeout=5000)
@@ -250,7 +248,7 @@ def bs_publish(page) :
     sleep(10)
     page.close()
 
-# Searches for the technology ID in the search bar
+# SEARCHES for the technology
 def bs_search_technology(page, sCleanID) :
     
     page.get_by_role("textbox", name="search Search").click()

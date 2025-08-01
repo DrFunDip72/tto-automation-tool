@@ -6,7 +6,6 @@
 from playwright.sync_api import * # necessary playwright import
 import logging
 import glob, os # for file paths and getting file names
-from user_input import *
 from playwright_launcher import run # 
 from first_ignite import *
 from formatting_functions import *

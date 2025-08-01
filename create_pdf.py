@@ -2,12 +2,9 @@
 # This code loops through and inserts the corresponding information into the sections to create a sell sheet
 # exported as a pdf
 
-
 # imports pdf functionality
 from fpdf import FPDF
 import os
-from config import noto_sans_r, noto_sans_b, banner_path, footer_banner_path, export_folder
-
 
 # Modify the bullet point sections to use multi_cell instead of cell
 def add_bulleted_section(pdf, section_title, items):
@@ -34,9 +31,8 @@ def add_bulleted_section(pdf, section_title, items):
         # Add a small extra line break between bullet points
         pdf.ln(2)
 
-
 # creates the function
-def create_pdf(sTitle, sCleanID, sExectutiveStatement, sDescription, lstAdvantages, lstProblemsSolved, lstMarketApplications) :
+def create_pdf(sTitle, sCleanID, sExectutiveStatement, sDescription, lstAdvantages, lstProblemsSolved, lstMarketApplications, banner_path="Images/banner.png", footer_banner_path="Images/footer banner.png", export_folder="."):
     # creates the pdf
     pdf = FPDF()
     pdf.set_auto_page_break(auto=True, margin=15)
@@ -44,6 +40,9 @@ def create_pdf(sTitle, sCleanID, sExectutiveStatement, sDescription, lstAdvantag
 
     # Register Noto Sans Font
     # NOTE: the bullet points use "Arial" 
+    noto_sans_r = "Fonts/NotoSans-Regular.ttf"
+    noto_sans_b = "Fonts/NotoSans-Bold.ttf"
+    
     pdf.add_font("NotoSans", "", noto_sans_r,  uni=True)
     pdf.add_font("NotoSans", "B", noto_sans_b, uni=True)  # Bold version
     
@@ -98,33 +97,21 @@ def create_pdf(sTitle, sCleanID, sExectutiveStatement, sDescription, lstAdvantag
     # These next three sections make the corresponding title (by calling the function at the top)
     # then loops through a list of sentences in a list and puts them on the page
     # with a bullet point before them (BULLETS use ARIAL)
-
-    # Key Advantages
     add_bulleted_section(pdf, "Key Advantages:", lstAdvantages)
     pdf.ln(2.5)  # Space after section
-
-    # Problems Solved
-    add_bulleted_section(pdf, "Problems Addressed:", lstProblemsSolved)        
+    
+    add_bulleted_section(pdf, "Problems Solved:", lstProblemsSolved)
+    pdf.ln(2.5)  # Space after section
+    
+    add_bulleted_section(pdf, "Market Applications:", lstMarketApplications)
     pdf.ln(2.5)  # Space after section
 
-    # Market Applications
-    add_bulleted_section(pdf, "Market Applications:", lstMarketApplications)
-
     # Insert footer banner image at the bottom
-    footer_height = 20
-    pdf.image(footer_banner_path, x=0, y= 290 - footer_height, w=210)  # Adjust width to fit A4 page
-
-    # creates the proper output name
-    sOutputName = sCleanID + " Sell Sheet.pdf" # Change this dynamically as needed
-
-    # Exports the sell sheet into the Exported Sell Sheet folder
-    # the folder to export to
-    os.makedirs(export_folder, exist_ok=True)  # Ensure the folder exists
-
-    # Combine folder path with output file name
-    sTargetPDF = os.path.join(export_folder, sOutputName)
-
-    # Saves the PDF using the sTargetPDF as the path with the output name
-    pdf.output(sTargetPDF)
+    pdf.image(footer_banner_path, x=0, y=pdf.get_y(), w=210)  # Adjust width to fit A4 page
+    
+    # Save the PDF
+    output_path = os.path.join(export_folder, f"{sCleanID}_sell_sheet.pdf")
+    pdf.output(output_path)
+    
     return export_folder
 
