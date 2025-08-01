@@ -14,7 +14,11 @@ def launch_first_ignite(page, filePath):
     page.locator("div").filter(has_text=re.compile(r"^TextFile$")).locator("label span").click() # turns on the toggle that allows files to be uploaded
     sleep(1)
 
-    page.get_by_role("textbox", name="󰕒 Drop your file here or").set_input_files(filePath) # uploads the file being used in the for loop
+    # Fix: Use proper selector for file upload area
+    # The file upload area is likely an input element with type="file"
+    file_input = page.locator('input[type="file"]')
+    file_input.set_input_files(filePath) # uploads the file being used in the for loop
+    
     page.get_by_text("Launch 🚀").click() # launches
 
     sleep(60) # waits for it to load
