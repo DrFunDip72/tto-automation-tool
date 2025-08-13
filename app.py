@@ -13,6 +13,10 @@ import platform
 import asyncio
 from pathlib import Path
 
+# Ensure asyncio subprocess support on Windows for Playwright
+if platform.system() == "Windows":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
 # Import automation functions
 from playwright.sync_api import sync_playwright
 from playwright_launcher import run
